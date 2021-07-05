@@ -62,6 +62,7 @@
 
         <mapper resource="com/company/dao/AccountDao.xml"/>
         <mapper resource="com/company/dao/RoleDao.xml" />
+        <mapper resource="com/company/mapper/UserMapper.xml"/>
     </mappers>
 
 </configuration>
