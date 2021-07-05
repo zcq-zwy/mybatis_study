@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.mapper.TUserMapper">
+  <resultMap id="BaseResultMap" type="com.company.entity.TUser">
+    <!--@mbg.generated-->
+    <!--@Table t_user-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="accountID" jdbcType="VARCHAR" property="accountid" />
+    <result column="userName" jdbcType="VARCHAR" property="username" />
+    <result column="statusDef" jdbcType="VARBINARY" property="statusDef" />
+    <result column="statusOrdinal" jdbcType="VARCHAR" property="statusOrdinal"  typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, accountID, userName, statusDef, statusOrdinal
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from t_user
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.company.entity.TUser">
+    <!--@mbg.generated-->
+    insert into t_user (id, accountID, userName, 
+      statusDef, statusOrdinal)
+    values (#{id,jdbcType=VARCHAR}, #{accountid,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{statusDef,jdbcType=VARCHAR}, #{statusOrdinal,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.company.entity.TUser">
+    <!--@mbg.generated-->
+    insert into t_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="accountid != null">
+        accountID,
+      </if>
+      <if test="username != null">
+        userName,
+      </if>
+      <if test="statusDef != null">
+        statusDef,
+      </if>
+      <if test="statusOrdinal != null">
+        statusOrdinal,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="accountid != null">
+        #{accountid,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="statusDef != null">
+        #{statusDef,jdbcType=VARCHAR},
+      </if>
+      <if test="statusOrdinal != null">
+        #{statusOrdinal,jdbcType=VARCHAR,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.company.entity.TUser">
+    <!--@mbg.generated-->
+    update t_user
+    <set>
+      <if test="accountid != null">
+        accountID = #{accountid,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        userName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="statusDef != null">
+        statusDef = #{statusDef,jdbcType=VARCHAR},
+      </if>
+      <if test="statusOrdinal != null">
+        statusOrdinal = #{statusOrdinal,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.company.entity.TUser">
+    <!--@mbg.generated-->
+    update t_user
+    set accountID = #{accountid,jdbcType=VARCHAR},
+      userName = #{username,jdbcType=VARCHAR},
+      statusDef = #{statusDef,jdbcType=VARCHAR},
+      statusOrdinal = #{statusOrdinal,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update t_user
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="accountID = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.accountid != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.accountid,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="userName = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.username != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.username,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="statusDef = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.statusDef != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.statusDef,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="statusOrdinal = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.statusOrdinal != null">
+            when id = #{item.id,jdbcType=VARCHAR} then #{item.statusOrdinal,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+</mapper>

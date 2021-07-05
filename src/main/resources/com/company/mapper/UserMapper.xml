@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.company.entity.User">
+    <!--@mbg.generated-->
+    <!--@Table `user`-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="sex" jdbcType="CHAR" property="sex" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, username, birthday, sex, address
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from `user`
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from `user`
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.company.entity.User" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into `user` (username, birthday, sex, 
+      address)
+    values (#{username,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, #{sex,jdbcType=CHAR}, 
+      #{address,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.company.entity.User" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into `user`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        username,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=CHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.company.entity.User">
+    <!--@mbg.generated-->
+    update `user`
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=CHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.company.entity.User">
+    <!--@mbg.generated-->
+    update `user`
+    set username = #{username,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      sex = #{sex,jdbcType=CHAR},
+      address = #{address,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <resultMap id="JoinResultMap" type="com.company.entity.User">
+    <!--@mbg.generated-->
+    <id column="`user`_id" jdbcType="INTEGER" property="id" />
+    <result column="`user`_username" jdbcType="VARCHAR" property="username" />
+    <result column="`user`_birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="`user`_sex" jdbcType="CHAR" property="sex" />
+    <result column="`user`_address" jdbcType="VARCHAR" property="address" />
+  </resultMap>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update `user`
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="username = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=INTEGER} then #{item.username,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="birthday = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=INTEGER} then #{item.birthday,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="sex = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=INTEGER} then #{item.sex,jdbcType=CHAR}
+        </foreach>
+      </trim>
+      <trim prefix="address = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=INTEGER} then #{item.address,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=INTEGER}
+    </foreach>
+  </update>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into `user`
+    (username, birthday, sex, address)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.username,jdbcType=VARCHAR}, #{item.birthday,jdbcType=TIMESTAMP}, #{item.sex,jdbcType=CHAR}, 
+        #{item.address,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+<!--auto generated by MybatisCodeHelper on 2021-02-27-->
+  <update id="updateByAddress">
+    update `user`
+    <set>
+      <if test="updated.id != null">
+        id = #{updated.id,jdbcType=INTEGER},
+      </if>
+      <if test="updated.username != null">
+        username = #{updated.username,jdbcType=VARCHAR},
+      </if>
+      <if test="updated.birthday != null">
+        birthday = #{updated.birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated.sex != null">
+        sex = #{updated.sex,jdbcType=CHAR},
+      </if>
+      <if test="updated.address != null">
+        address = #{updated.address,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where address=#{address,jdbcType=VARCHAR}
+  </update>
+<!--auto generated by MybatisCodeHelper on 2021-02-27-->
+  <select id="selectAllBySex" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from `user`
+    where sex=#{sex,jdbcType=CHAR}
+  </select>
+<!--auto generated by MybatisCodeHelper on 2021-02-27-->
+  <select id="selectByBirthdayAndUsername" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from `user`
+    where birthday=#{birthday,jdbcType=TIMESTAMP} and username=#{username,jdbcType=VARCHAR}
+  </select>
+<!--auto generated by MybatisCodeHelper on 2021-07-05-->
+  <select id="selectAllByIdIn" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from `user`
+    where id in
+    <foreach close=")" collection="idCollection" index="index" item="item" open="(" separator=",">
+      #{item,jdbcType=INTEGER}
+    </foreach>
+  </select><delete id="updateBatchSelective" />
+</mapper>

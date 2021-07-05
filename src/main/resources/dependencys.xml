@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dependencies>
+    <statements>
+        <statement id="com.company.dao.AccountDao.updateAccounts">
+            <observer id="com.company.dao.UserDao.findUsersWithAccounts" />
+        </statement>
+        <statement id="com.company.dao.UserDao.updateUser">
+            <observer id="com.company.dao.UserDao.findUsersWithAccounts" />
+        </statement>
+    </statements>
+</dependencies>

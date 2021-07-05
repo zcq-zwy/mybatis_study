@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.dao.RoleDao">
+
+<resultMap id="roleMap" type="com.company.domain.Role">
+<id property="id" column="rid" />
+<result property="roleName" column="ROLE_NAME" />
+<result property="roleDesc" column="ROLE_DESC" />
+
+<collection property="userList" ofType="com.company.domain.User">
+<id property="id" column="id" />
+<result property="username" column="username" />
+<result property="address" column="address"/>
+<result property="sex" column="sex"/>
+<result column="birthday" property="birthday"/>
+</collection>
+</resultMap>
+
+<resultMap id="roleMapTest" type="com.company.domain.Role">
+
+<id column="id" property="id"/>
+<result column="role_name" property="roleName"/>
+<result column="role_desc" property="roleDesc"/>
+</resultMap>
+
+<resultMap id="roleToUserMap" type="com.company.domain.Role">
+<id property="id" column="rid" />
+<result property="roleName" column="ROLE_NAME" />
+<result property="roleDesc" column="ROLE_DESC" />
+
+</resultMap>
+
+
+<resultMap id="userMap" type="User">
+<id property="id" column="id" />
+<result property="username" column="username" />
+<result property="address" column="address"/>
+<result property="sex" column="sex"/>
+<result column="birthday" property="birthday"/>
+<collection property="list" ofType="com.company.domain.Role">
+<id property="id" column="rid" />
+<result property="roleName" column="ROLE_NAME" />
+<result property="roleDesc" column="ROLE_DESC" />
+</collection>
+</resultMap>
+
+
+<select id="findAll" resultMap="roleMap">
+select *from role
+</select>
+<select id="findAllUserAndRole" resultMap="userMap">
+SELECT
+	`user`.*,
+	role.ID AS rid,
+	role.ROLE_NAME,
+	role.ROLE_DESC
+FROM
+	`user`
+	LEFT JOIN user_role ON `user`.id = user_role.UID
+	LEFT JOIN role ON user_role.RID = role.ID
+
+</select>
+<select id="findAllRoleAndUser" resultMap="roleToUserMap">
+SELECT
+	`user`.*,
+	role.ID AS rid,
+	role.ROLE_NAME,
+	role.ROLE_DESC
+FROM
+	`user`
+	right JOIN user_role ON `user`.id = user_role.UID
+	right JOIN role ON user_role.RID = role.ID
+</select>
+
+</mapper>

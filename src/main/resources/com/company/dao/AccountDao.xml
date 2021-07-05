@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.company.dao.AccountDao">
+<cache />
+<resultMap id="userMap" type="User">
+<id property="id" column="id" />
+<result property="username" column="username" />
+<result property="address" column="address"/>
+<result property="sex" column="sex"/>
+<result column="birthday" property="birthday"/>
+<collection property="accountList" ofType="com.company.domain.Account">
+<id column="aid" property="id"/>
+<result property="uid" column="UID" />
+<result column="MONEY" property="money" />
+</collection>
+</resultMap>
+
+<resultMap id="accountMap" type="Account">
+<id column="aid" property="id"/>
+<result property="uid" column="UID" />
+<result column="MONEY" property="money" />
+<association property="user" javaType="com.company.domain.User">
+<id property="id" column="id" />
+<result property="username" column="username" />
+<result property="address" column="address"/>
+<result property="sex" column="sex"/>
+<result column="birthday" property="birthday"/>
+</association>
+</resultMap>
+
+
+<resultMap id="accountMap1" type="Account">
+<id column="ID" property="id"/>
+<result property="uid" column="UID" />
+<result column="MONEY" property="money" />
+<association property="user" javaType="com.company.domain.User" select="com.company.dao.UserDao.findUserById" column="UID">
+
+</association>
+</resultMap>
+
+
+
+<select id="findAll" resultType="com.company.domain.AccountUser">
+
+
+	SELECT
+	`user`.username,
+	`user`.address,
+	account.*
+FROM
+	`user`
+	INNER JOIN account ON account.UID = `user`.id
+
+</select>
+<select id="findAllAccounts" resultMap="accountMap">
+SELECT
+
+	`user`.*,
+	account.ID AS aid,
+	account.UID,
+	account.MONEY
+FROM
+	`user`
+	INNER JOIN account ON account.UID = `user`.id
+</select>
+<select id="findUsersAndAccounts" resultMap="userMap">
+SELECT
+	`user`.*,
+	account.ID AS aid,
+	account.UID,
+	account.MONEY
+FROM
+	`user`
+	LEFT JOIN account ON `user`.id = account.UID
+</select>
+<update id="updateAccounts" parameterType="Account" >
+update account set MONEY=#{money} where ID=#{id,jdbcType=INTEGER}
+</update>
+<select id="findUsersAndAccount" resultType="com.company.domain.AccountWithUser">
+SELECT
+	`user`.*,
+	account.ID AS aid,
+	account.UID,
+	account.MONEY
+FROM
+	`user`
+	LEFT JOIN account ON `user`.id = account.UID
+</select>
+<select id="findAccounts" resultMap="accountMap1">
+select * from account
+</select>
+
+<select id="findByUid" resultType="com.company.domain.Account">
+select * from account where UID=#{uid,jdbcType=INTEGER}
+</select>
+
+</mapper>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- mybatis的主配置文件 -->
+
+<configuration>
+
+<!--    配置properties-->
+
+    <properties resource="jdbcConfig.properties"/>
+
+    <settings>
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="aggressiveLazyLoading" value="false"/>
+    </settings>
+
+
+    <typeAliases>
+<!--        指定类型别名，默认为类名，这样就不要写全类名-->
+<!--        <typeAlias type="com.company.domain.User" alias="user"/>-->
+<!--        在没有注解的情况下，会使用 Bean 的首字母小写的非限定类名来作为它的别名-->
+        <package name="com.company.domain"/>
+    </typeAliases>
+
+
+
+<!--    <plugins>-->
+<!--&lt;!&ndash;        插件类似于一个拦截器&ndash;&gt;-->
+<!--        <plugin interceptor="org.luanlouis.mybatis.plugin.cache.EnhancedCachingExecutor">-->
+<!--            <property name="dependency" value="dependencys.xml"/>-->
+<!--            <property name="cacheEnabled" value="true"/>-->
+<!--        </plugin>-->
+<!--    </plugins>-->
+
+    <!-- 配置环境 -->
+    <environments default="mysql">
+        <!-- 配置mysql的环境-->
+        <environment id="mysql">
+            <!-- 配置事务的类型-->
+            <transactionManager type="JDBC"/>
+            <!-- 配置数据源（连接池） -->
+            <dataSource type="com.company.utils.MyDruidDataSourceFactory">
+                <!-- 配置连接数据库的4个基本信息 -->
+                <property name="driverClassname" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+                <property name="initialSize" value="${initialSize}"/>
+                <property name="maxActive" value="${maxActive}"/>
+                <property name="maxWait" value="${maxWait}"/>
+                <property name="filters" value="${filters}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!-- 指定映射配置文件的位置，映射配置文件指的是每个dao独立的配置文件，class属性只能
+     指定dao层实现类-->
+    <mappers>
+        <mapper resource="com/company/dao/UserDao.xml"/>
+<!--        <mapper class="com.company.dao.UserDao"/>-->
+
+        <mapper resource="com/company/dao/AccountDao.xml"/>
+        <mapper resource="com/company/dao/RoleDao.xml" />
+    </mappers>
+
+</configuration>
